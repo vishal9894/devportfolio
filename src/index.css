@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.typing {
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #4b5563;
+  animation: typing 3s steps(20) infinite alternate, blink 0.7s infinite;
+}
+
+.typing::after {
+  content: "Frontend Developer";
+  animation: textChange 6s infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 20ch;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes textChange {
+  0% {
+    content: "Frontend Developer";
+  }
+  50% {
+    content: "Backend Developer";
+  }
+  100% {
+    content: "Frontend Developer";
+  }
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover::before {
+  transform: translateX(0);
+}
+
+.tag-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
