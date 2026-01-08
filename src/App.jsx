@@ -356,7 +356,7 @@ const App = () => {
                     <span className="font-semibold text-gray-800">
                       Experience:
                     </span>{" "}
-                    1.7 Years
+                    1.4 Years
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -365,7 +365,7 @@ const App = () => {
                     7091804766
                   </p>
                   <p className="text-gray-600">
-                    <span className="font-semibold text-gray-800">Email:</span>{" "}
+                    <span className="font-semibold text-gray-800">Email:</span> 
                     vishalkumar662002@gmail.com
                   </p>
                   <p className="text-gray-600">
@@ -818,28 +818,7 @@ const App = () => {
             </p>
           </div>
 
-          {/* Filter Buttons */}
-          <div
-            className="flex flex-wrap justify-center gap-4 mb-12"
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            {categories.map((category, index) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveFilter(category.id)}
-                className={`px-6 py-2 rounded-full transition-all duration-300 ${
-                  activeFilter === category.id
-                    ? "bg-red-500 text-white shadow-lg"
-                    : "bg-gray-800 text-white hover:bg-gray-700"
-                }`}
-                data-aos="zoom-in"
-                data-aos-delay={100 + index * 100}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
+          
 
           {/* Projects Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
