@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { BiDownArrow } from "react-icons/bi";
+import React, { useState, useEffect, useRef } from "react";
+import { BiArrowToTop, BiDownArrow } from "react-icons/bi";
 import { RxAvatar } from "react-icons/rx";
 import {
   FaGithub,
@@ -9,7 +9,33 @@ import {
   FaPhone,
   FaMapMarkerAlt,
   FaPaperPlane,
+  FaReact,
+  FaJs,
+  FaHtml5,
+  FaCss3Alt,
+  FaNodeJs,
+  FaDatabase,
+  FaGitAlt,
+  FaTools,
+  FaRegPaperPlane,
 } from "react-icons/fa";
+import {
+  SiExpress,
+  SiMongodb,
+  SiMysql,
+  SiPostgresql,
+  SiTailwindcss,
+  SiTypescript,
+  SiRedux,
+  SiNextdotjs,
+  SiGraphql,
+  SiVercel,
+  SiNetlify,
+  SiRender,
+  SiJsonwebtokens,
+} from "react-icons/si";
+import { RiComputerLine, RiServerLine } from "react-icons/ri";
+import { TbApi } from "react-icons/tb";
 import ubs from "../src/assets/Screenshot 2026-01-06 193832.png";
 import chat from "../src/assets/Screenshot 2026-01-06 194052.png";
 import videocall from "../src/assets/Screenshot 2026-01-06 193117.png";
@@ -24,10 +50,12 @@ import logo from "../src/assets/logo.png";
 // Import AOS
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { TypeAnimation } from "react-type-animation";
 
 const App = () => {
   const [showHeader, setShowHeader] = useState(false);
   const [activeFilter, setActiveFilter] = useState("all");
+  const skillBarsRef = useRef([]);
 
   // Initialize AOS
   useEffect(() => {
@@ -50,6 +78,31 @@ const App = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const skillBar = entry.target.querySelector(".skill-bar-fill");
+            if (skillBar) {
+              const width = skillBar.getAttribute("data-width");
+              setTimeout(() => {
+                skillBar.style.width = width;
+              }, 100);
+            }
+          }
+        });
+      },
+      { threshold: 0.5 },
+    );
+
+    skillBarsRef.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const projects = [
@@ -143,6 +196,97 @@ const App = () => {
     { id: "backend", name: "Backend" },
     { id: "fullstack", name: "Full Stack" },
     { id: "mobile", name: "Mobile" },
+  ];
+
+  const SkillBar = ({ skill, percentage, icon: Icon, color = "red" }) => (
+    <div className="mb-6">
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center">
+          <Icon
+            className={`w-5 h-5 mr-3 ${color === "red" ? "text-red-400" : color === "blue" ? "text-blue-400" : color === "green" ? "text-green-400" : "text-purple-400"}`}
+          />
+          <span className="text-gray-300 font-medium">{skill}</span>
+        </div>
+        <span className="text-gray-400 font-bold">{percentage}%</span>
+      </div>
+      <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+        <div
+          className="skill-bar-fill h-3 rounded-full transition-all duration-1000 ease-out"
+          style={{
+            width: "0%",
+            backgroundColor:
+              color === "red"
+                ? "#ef4444"
+                : color === "blue"
+                  ? "#3b82f6"
+                  : color === "green"
+                    ? "#10b981"
+                    : "#8b5cf6",
+          }}
+          data-width={`${percentage}%`}
+        ></div>
+      </div>
+    </div>
+  );
+
+  const skillsData = {
+    frontend: [
+      { skill: "React.js", percentage: 90, icon: FaReact, color: "red" },
+      { skill: "JavaScript", percentage: 85, icon: FaJs, color: "red" },
+      { skill: "HTML5", percentage: 95, icon: FaHtml5, color: "red" },
+      { skill: "CSS3", percentage: 95, icon: FaCss3Alt, color: "red" },
+      {
+        skill: "Tailwind CSS",
+        percentage: 88,
+        icon: SiTailwindcss,
+        color: "red",
+      },
+    ],
+    backend: [
+      { skill: "Node.js", percentage: 85, icon: FaNodeJs, color: "blue" },
+      { skill: "Express.js", percentage: 80, icon: SiExpress, color: "blue" },
+      { skill: "REST APIs", percentage: 90, icon: TbApi, color: "blue" },
+      { skill: "JWT", percentage: 75, icon: SiJsonwebtokens, color: "blue" },
+      {
+        skill: "webSocket",
+        percentage: 75,
+        icon: FaRegPaperPlane ,
+        color: "blue",
+      },
+    ],
+    database: [
+      { skill: "MongoDB", percentage: 85, icon: SiMongodb, color: "green" },
+      { skill: "MySQL", percentage: 70, icon: SiMysql, color: "green" },
+      {
+        skill: "PostgreSQL",
+        percentage: 65,
+        icon: SiPostgresql,
+        color: "green",
+      },
+      {
+        skill: "Database Design",
+        percentage: 80,
+        icon: FaDatabase,
+        color: "green",
+      },
+    ],
+    tools: [
+      { skill: "Git/GitHub", percentage: 90, icon: FaGitAlt, color: "purple" },
+      { skill: "Netlify", percentage: 60, icon: SiNetlify, color: "purple" },
+      { skill: "Vercel", percentage: 65, icon: SiVercel, color: "purple" },
+      { skill: "Render", percentage: 70, icon: SiRender, color: "purple" },
+    ],
+  };
+
+  const additionalSkills = [
+    { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
+    { name: "Redux", icon: SiRedux, color: "text-purple-500" },
+    { name: "Next.js", icon: SiNextdotjs, color: "text-white" },
+    { name: "GraphQL", icon: SiGraphql, color: "text-pink-500" },
+    { name: "WebSocket", icon: TbApi, color: "text-green-500" },
+    { name: "RESTful APIs", icon: TbApi, color: "text-red-500" },
+    { name: "Agile/Scrum", icon: FaTools, color: "text-yellow-500" },
+    { name: "Problem Solving", icon: RiComputerLine, color: "text-cyan-500" },
   ];
 
   return (
@@ -268,13 +412,22 @@ const App = () => {
                 Vishal Kumar
               </h2>
               <div className="h-10">
-                <h3
-                  className="typing text-2xl md:text-3xl font-semibold text-gray-800"
-                  data-aos="fade-up"
-                  data-aos-delay="500"
-                >
-                  Full Stack Developer
-                </h3>
+                <TypeAnimation
+                  sequence={[
+                    "Full Stack Developer",
+                    1000,
+                    "MERN Stack Developer",
+                    1000,
+                    "Frontend Developer",
+                    1000,
+                    "Backend Developer",
+                    1000,
+                  ]}
+                  wrapper="span"
+                  speed={50}
+                  style={{ fontSize: "2em", display: "inline-block" }}
+                  repeat={Infinity}
+                />
               </div>
             </div>
 
@@ -303,9 +456,20 @@ const App = () => {
         </div>
       </section>
 
+      {/* arrow button */}
+
+     {showHeader && (
+  <button
+    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    className="fixed bottom-8 right-8 bg-gray-800/80 backdrop-blur-lg p-4 rounded-full text-white border border-gray-700/50 hover:border-red-500/50 shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300 z-50 group animate-bounce-slow"
+  >
+    <BiArrowToTop className="w-6 h-6 group-hover:-translate-y-1 transition-transform duration-300" />
+  </button>
+)}
+
       {/* About Section */}
       <section id="about" className="min-h-screen bg-gray-300 py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="relative mb-16 text-center" data-aos="fade-up">
             <h3 className="text-2xl md:text-3xl text-gray-600 font-light absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4">
               ABOUT ME
@@ -365,7 +529,7 @@ const App = () => {
                     7091804766
                   </p>
                   <p className="text-gray-600">
-                    <span className="font-semibold text-gray-800">Email:</span> 
+                    <span className="font-semibold text-gray-800">Email:</span>
                     vishalkumar662002@gmail.com
                   </p>
                   <p className="text-gray-600">
@@ -399,7 +563,7 @@ const App = () => {
         id="quality"
         className="min-h-screen bg-gray-400 py-20 px-4 flex justify-center items-center"
       >
-        <div className="max-w-6xl w-full">
+        <div className="max-w-7xl w-full">
           {/* Section Header */}
           <div className="flex flex-col items-center mb-16" data-aos="fade-up">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-800">
@@ -530,274 +694,165 @@ const App = () => {
 
       {/* Skills Section */}
       <section id="skill" className="min-h-screen bg-gray-300 py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="relative mb-16 text-center" data-aos="fade-up">
-            <h3 className="text-2xl md:text-3xl text-gray-600 font-light absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-4">
-              MY SKILLS
-            </h3>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-800 relative">
-              SKILLS
+            <div className="flex items-center justify-center mb-4">
+              <RiComputerLine className="w-12 h-12 text-gray-800 mr-4 animate-pulse" />
+              <h3 className="text-2xl md:text-3xl text-gray-800 font-light">
+                MY EXPERTISE
+              </h3>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-600 relative">
+              SKILLS & TECHNOLOGIES
             </h1>
+            <div className="mt-4 w-24 h-1 bg-gradient-to-r from-red-500 to-red-600 mx-auto rounded-full"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Frontend Skills */}
             <div
-              className="bg-gray-200 p-6 rounded-2xl shadow-lg"
-              data-aos="zoom-in"
+              ref={(el) => (skillBarsRef.current[0] = el)}
+              className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-700 hover:border-red-500 transition-all duration-500 hover:transform hover:-translate-y-2"
+              data-aos="fade-up"
               data-aos-delay="100"
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Frontend</h3>
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">React.js</span>
-                    <span className="text-gray-600 font-medium">90%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[90%]"></div>
-                  </div>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mr-4">
+                  <FaReact className="w-7 h-7 text-red-400 animate-spin-slow" />
                 </div>
                 <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">JavaScript</span>
-                    <span className="text-gray-600 font-medium">85%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[85%]"></div>
-                  </div>
+                  <h3 className="text-2xl font-bold text-white">Frontend</h3>
+                  <p className="text-gray-400 text-sm">UI/UX Development</p>
                 </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">HTML/CSS</span>
-                    <span className="text-gray-600 font-medium">95%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[95%]"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Tailwind CSS</span>
-                    <span className="text-gray-600 font-medium">88%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[88%]"></div>
-                  </div>
-                </div>
+              </div>
+              <div>
+                {skillsData.frontend.map((item, index) => (
+                  <SkillBar key={index} {...item} />
+                ))}
               </div>
             </div>
 
             {/* Backend Skills */}
             <div
-              className="bg-gray-200 p-6 rounded-2xl shadow-lg"
-              data-aos="zoom-in"
+              ref={(el) => (skillBarsRef.current[1] = el)}
+              className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-700 hover:border-blue-500 transition-all duration-500 hover:transform hover:-translate-y-2"
+              data-aos="fade-up"
               data-aos-delay="200"
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Backend</h3>
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Node.js</span>
-                    <span className="text-gray-600 font-medium">85%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[85%]"></div>
-                  </div>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mr-4">
+                  <RiServerLine className="w-7 h-7 text-blue-400" />
                 </div>
                 <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Express.js</span>
-                    <span className="text-gray-600 font-medium">80%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[80%]"></div>
-                  </div>
+                  <h3 className="text-2xl font-bold text-white">Backend</h3>
+                  <p className="text-gray-400 text-sm">
+                    Server-side Development
+                  </p>
                 </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">REST APIs</span>
-                    <span className="text-gray-600 font-medium">90%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[90%]"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">JWT</span>
-                    <span className="text-gray-600 font-medium">75%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[75%]"></div>
-                  </div>
-                </div>
+              </div>
+              <div>
+                {skillsData.backend.map((item, index) => (
+                  <SkillBar key={index} {...item} />
+                ))}
               </div>
             </div>
 
             {/* Database Skills */}
             <div
-              className="bg-gray-200 p-6 rounded-2xl shadow-lg"
-              data-aos="zoom-in"
+              ref={(el) => (skillBarsRef.current[2] = el)}
+              className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-700 hover:border-green-500 transition-all duration-500 hover:transform hover:-translate-y-2"
+              data-aos="fade-up"
               data-aos-delay="300"
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Database</h3>
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">MongoDB</span>
-                    <span className="text-gray-600 font-medium">85%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[85%]"></div>
-                  </div>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mr-4">
+                  <FaDatabase className="w-7 h-7 text-green-400" />
                 </div>
                 <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">MySQL</span>
-                    <span className="text-gray-600 font-medium">70%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[70%]"></div>
-                  </div>
+                  <h3 className="text-2xl font-bold text-white">Database</h3>
+                  <p className="text-gray-400 text-sm">Data Management</p>
                 </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">PostgreSQL</span>
-                    <span className="text-gray-600 font-medium">65%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[65%]"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Database Design</span>
-                    <span className="text-gray-600 font-medium">80%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[80%]"></div>
-                  </div>
-                </div>
+              </div>
+              <div>
+                {skillsData.database.map((item, index) => (
+                  <SkillBar key={index} {...item} />
+                ))}
               </div>
             </div>
 
             {/* Tools & Others */}
             <div
-              className="bg-gray-200 p-6 rounded-2xl shadow-lg"
-              data-aos="zoom-in"
+              ref={(el) => (skillBarsRef.current[3] = el)}
+              className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-700 hover:border-purple-500 transition-all duration-500 hover:transform hover:-translate-y-2"
+              data-aos="fade-up"
               data-aos-delay="400"
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                Tools & Others
-              </h3>
-              <div className="space-y-3">
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Git/GitHub</span>
-                    <span className="text-gray-600 font-medium">90%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[90%]"></div>
-                  </div>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mr-4">
+                  <FaTools className="w-7 h-7 text-purple-400" />
                 </div>
                 <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Netlify</span>
-                    <span className="text-gray-600 font-medium">60%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[60%]"></div>
-                  </div>
+                  <h3 className="text-2xl font-bold text-white">
+                    Tools & Others
+                  </h3>
+                  <p className="text-gray-400 text-sm">Development Tools</p>
                 </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Vercel</span>
-                    <span className="text-gray-600 font-medium">65%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[65%]"></div>
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-gray-700">Render</span>
-                    <span className="text-gray-600 font-medium">70%</span>
-                  </div>
-                  <div className="w-full bg-gray-300 rounded-full h-2">
-                    <div className="bg-red-500 h-2 rounded-full w-[70%]"></div>
-                  </div>
-                </div>
+              </div>
+              <div>
+                {skillsData.tools.map((item, index) => (
+                  <SkillBar key={index} {...item} />
+                ))}
               </div>
             </div>
           </div>
 
           {/* Additional Skills */}
           <div className="mt-16" data-aos="fade-up" data-aos-delay="500">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-              Additional Skills
+            <h3 className="text-2xl font-bold text-gray-700 mb-6 text-center flex items-center justify-center">
+              <FaTools className="w-6 h-6 mr-3 text-gray-800" />
+              Additional Skills & Technologies
             </h3>
             <div className="flex flex-wrap justify-center gap-4">
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="100"
-              >
-                TypeScript
-              </span>
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="150"
-              >
-                Redux
-              </span>
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="200"
-              >
-                Next.js
-              </span>
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="250"
-              >
-                GraphQL
-              </span>
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="300"
-              >
-                WebSocket
-              </span>
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="350"
-              >
-                RESTful APIs
-              </span>
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="400"
-              >
-                Agile/Scrum
-              </span>
-              <span
-                className="px-4 py-2 bg-gray-800 text-white rounded-full tag-hover transition-all duration-300"
-                data-aos="zoom-in"
-                data-aos-delay="450"
-              >
-                Problem Solving
-              </span>
+              {additionalSkills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="px-6 py-3 bg-gray-800/50 backdrop-blur-sm rounded-full flex items-center tag-hover transition-all duration-300 hover:bg-gray-700 hover:transform hover:-translate-y-1 border border-gray-700"
+                  data-aos="zoom-in"
+                  data-aos-delay={index * 50}
+                >
+                  <skill.icon className={`w-5 h-5 mr-2 ${skill.color}`} />
+                  <span className="text-gray-200 font-medium">
+                    {skill.name}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
+
+        <style jsx>{`
+          .animate-spin-slow {
+            animation: spin 8s linear infinite;
+          }
+
+          @keyframes spin {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+
+          .tag-hover:hover {
+            box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.2);
+          }
+
+          .skill-bar-fill {
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+        `}</style>
       </section>
 
       {/* Projects Section */}
@@ -817,8 +872,6 @@ const App = () => {
               applications.
             </p>
           </div>
-
-          
 
           {/* Projects Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -993,7 +1046,7 @@ const App = () => {
                 </div>
               </form>
 
-              <p className="text-gray-600 text-sm mt-6">
+              <p className="text-gray-600 text-sm text-center mt-6">
                 * All fields are required. I'll respond to your message within
                 24 hours.
               </p>
