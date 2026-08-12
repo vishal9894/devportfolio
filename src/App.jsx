@@ -76,10 +76,11 @@ import jq from "../src/assets/Screenshot 2026-01-06 193912.png";
 import bgrumober from "../src/assets/Screenshot 2026-01-06 194004.png";
 import eyecare from "../src/assets/project6.png";
 import enventry from "../src/assets/project1.jpg";
-import porfile from "../src/assets/profileimage.png";
+// import porfile from "../src/assets/profileimage.png";
 import about from "../src/assets/about.jpg";
 import logo from "../src/assets/logo.png";
 import logoDark from "../src/assets/logo.png";
+import porfile from "../src/assets/image.png";
 
 const App = () => {
   const [showHeader, setShowHeader] = useState(false);
