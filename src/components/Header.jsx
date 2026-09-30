@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { BiSun, BiMoon } from "react-icons/bi";
 import { useTheme } from "../context/ThemeContext";
 import { navItems, socialLinks, profile } from "../data/data";
+import Logo from "./Logo";
 
 const Header = ({ showHeader }) => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -12,7 +13,10 @@ const Header = ({ showHeader }) => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         showHeader
-          ? `${isDarkMode ? "bg-slate-900/90 backdrop-blur-xl shadow-2xl" : "bg-white/90 backdrop-blur-xl shadow-lg"} py-3`
+          ? `${isDarkMode
+              ? "bg-slate-900/60 backdrop-blur-2xl border-b border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.45)]"
+              : "bg-white/70 backdrop-blur-2xl border-b border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.08)]"
+            } py-3`
           : "bg-transparent py-5"
       }`}
     >
@@ -20,14 +24,12 @@ const Header = ({ showHeader }) => {
         <div className="flex items-center justify-between">
           <motion.a
             href="#home"
-            className="flex items-center gap-2"
+            className="flex items-center gap-3"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">VK</span>
-            </div>
+            <Logo className="w-10 h-10" />
             <span className={`font-bold text-xl ${isDarkMode ? "text-white" : "text-gray-900"}`}>
               Vishal<span className="text-indigo-500">.dev</span>
             </span>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { useTheme } from "../context/ThemeContext";
-import { contactInfo } from "../data/data";
+import { contactInfo, socialLinks } from "../data/data";
 
 const Contact = () => {
   const { isDarkMode } = useTheme();
@@ -34,19 +34,35 @@ const Contact = () => {
       <div className="max-w-5xl mx-auto">
         {/* Section Header */}
         <div className="relative mb-16 text-center" data-aos="fade-up">
-          <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${isDarkMode ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" : "bg-indigo-50 text-indigo-600 border border-indigo-200"}`}>
+          <span
+            className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4 ${isDarkMode ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" : "bg-indigo-50 text-indigo-600 border border-indigo-200"}`}
+          >
             Get In Touch
           </span>
-          <h1 className={`text-4xl md:text-5xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-            Let's Work <span className="bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">Together</span>
+          <h1
+            className={`text-4xl md:text-5xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}
+          >
+            Let's Work{" "}
+            <span className="bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">
+              Together
+            </span>
           </h1>
-          <p className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} mt-4 max-w-2xl mx-auto`}>Have a project in mind? Feel free to reach out. I'll get back to you as soon as possible.</p>
+          <p
+            className={`${isDarkMode ? "text-gray-400" : "text-gray-600"} mt-4 max-w-2xl mx-auto`}
+          >
+            Have a project in mind? Feel free to reach out. I'll get back to you
+            as soon as possible.
+          </p>
           <div className="mt-4 w-24 h-1 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto rounded-full"></div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Contact Info */}
-          <div className="lg:w-1/2 space-y-6" data-aos="fade-right" data-aos-delay="200">
+          <div
+            className="lg:w-1/2 space-y-6"
+            data-aos="fade-right"
+            data-aos-delay="200"
+          >
             {contactInfo.map((info) => (
               <div
                 key={info.label}
@@ -56,24 +72,44 @@ const Contact = () => {
                   <info.icon className="text-white text-xl" />
                 </div>
                 <div>
-                  <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm`}>{info.label}</p>
-                  <p className={`${isDarkMode ? "text-white" : "text-gray-900"} font-medium`}>{info.value}</p>
+                  <p
+                    className={`${isDarkMode ? "text-gray-400" : "text-gray-500"} text-sm`}
+                  >
+                    {info.label}
+                  </p>
+                  <p
+                    className={`${isDarkMode ? "text-white" : "text-gray-900"} font-medium`}
+                  >
+                    {info.value}
+                  </p>
                 </div>
               </div>
             ))}
 
-            <div className={`${isDarkMode ? "bg-slate-800/50 border-slate-700" : "bg-white/80 border-gray-200"} backdrop-blur-sm p-6 rounded-2xl border shadow-lg`}>
-              <h3 className={`font-bold mb-3 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Social Profiles</h3>
+            <div
+              className={`${isDarkMode ? "bg-slate-800/50 border-slate-700" : "bg-white/80 border-gray-200"} backdrop-blur-sm p-6 rounded-2xl border shadow-lg`}
+            >
+              <h3
+                className={`font-bold mb-3 ${isDarkMode ? "text-white" : "text-gray-900"}`}
+              >
+                Social Profiles
+              </h3>
               <div className="flex gap-3">
-                {["GitHub", "LinkedIn", "Twitter", "Instagram"].map((name) => (
+                {socialLinks.map(({ name, icon: Icon, url, hoverColor }) => (
                   <a
                     key={name}
-                    href="#"
-                    className={`w-10 h-10 rounded-full ${isDarkMode ? "bg-slate-700 hover:bg-indigo-500" : "bg-gray-100 hover:bg-indigo-500"} flex items-center justify-center transition-all duration-300 group`}
+                    href={url}
+                    title={name}
+                    aria-label={name}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`w-11 h-11 rounded-xl flex items-center justify-center shadow-md transition-all duration-300 transform hover:-translate-y-1 ${
+                      isDarkMode
+                        ? `bg-slate-700 text-gray-300 ${hoverColor} hover:text-white`
+                        : `bg-gray-100 text-gray-600 ${hoverColor} hover:text-white`
+                    }`}
                   >
-                    <span className={`text-xs font-bold ${isDarkMode ? "text-gray-300 group-hover:text-white" : "text-gray-600 group-hover:text-white"}`}>
-                      {name.charAt(0)}
-                    </span>
+                    <Icon className="text-xl" />
                   </a>
                 ))}
               </div>
@@ -82,15 +118,41 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="lg:w-1/2" data-aos="fade-left" data-aos-delay="300">
-            <div className={`${isDarkMode ? "bg-slate-800/50 border-slate-700" : "bg-white/80 border-gray-200"} backdrop-blur-sm p-8 rounded-2xl border shadow-xl`}>
-              <h2 className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-6`}>Send me a message</h2>
+            <div
+              className={`${isDarkMode ? "bg-slate-800/50 border-slate-700" : "bg-white/80 border-gray-200"} backdrop-blur-sm p-8 rounded-2xl border shadow-xl`}
+            >
+              <h2
+                className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} mb-6`}
+              >
+                Send me a message
+              </h2>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="text" placeholder="Your Name" className={inputClass} required />
-                  <input type="email" placeholder="Your Email" className={inputClass} required />
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    className={inputClass}
+                    required
+                  />
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    className={inputClass}
+                    required
+                  />
                 </div>
-                <input type="text" placeholder="Subject" className={inputClass} required />
-                <textarea placeholder="Your Message" rows="5" className={`${inputClass} resize-none`} required></textarea>
+                <input
+                  type="text"
+                  placeholder="Subject"
+                  className={inputClass}
+                  required
+                />
+                <textarea
+                  placeholder="Your Message"
+                  rows="5"
+                  className={`${inputClass} resize-none`}
+                  required
+                ></textarea>
                 <button
                   type="submit"
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
@@ -99,7 +161,18 @@ const Contact = () => {
                 </button>
               </form>
               {formStatus.submitted && (
-                <div className={`mt-4 p-3 rounded-lg text-center ${formStatus.success ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"}`}>
+                <div
+                  role="status"
+                  className={`mt-5 px-4 py-3 rounded-xl text-sm font-medium border ${
+                    formStatus.success
+                      ? isDarkMode
+                        ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                        : "bg-emerald-50 text-emerald-700 border-emerald-200"
+                      : isDarkMode
+                        ? "bg-red-500/10 text-red-400 border-red-500/30"
+                        : "bg-red-50 text-red-700 border-red-200"
+                  }`}
+                >
                   {formStatus.message}
                 </div>
               )}

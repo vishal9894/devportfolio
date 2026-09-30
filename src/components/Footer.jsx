@@ -1,5 +1,6 @@
 import { useTheme } from "../context/ThemeContext";
 import { navItems, profile, socialLinks } from "../data/data";
+import Logo from "./Logo";
 
 const Footer = () => {
   const { isDarkMode } = useTheme();
@@ -10,9 +11,8 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="mb-4 md:mb-0" data-aos="fade-right">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-lg">VK</span>
-              </div>
+              
+              <Logo className="w-10 h-10" />
               <span className={`font-bold text-xl ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                 Vishal<span className="text-indigo-500">.dev</span>
               </span>

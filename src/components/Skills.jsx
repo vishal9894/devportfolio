@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FaReact, FaDatabase, FaTools } from "react-icons/fa";
 import { RiComputerLine, RiServerLine } from "react-icons/ri";
+import Tilt3D from "./Tilt3D";
 import { useTheme } from "../context/ThemeContext";
 import { skillsData, additionalSkills } from "../data/data";
 
@@ -63,7 +64,7 @@ const Skills = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 perspective-1400">
           {Object.entries(skillsData).map(([category, skills], idx) => {
             const CategoryIcon = categoryIcons[category] || FaTools;
             return (
@@ -72,13 +73,17 @@ const Skills = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`group ${isDarkMode ? "bg-slate-800/60 border-slate-700 hover:border-indigo-500/50" : "bg-white/80 border-gray-200 hover:border-indigo-400/50"} backdrop-blur-sm rounded-2xl border transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 overflow-hidden`}
+                className={`group ${isDarkMode ? "bg-slate-800/60 border-slate-700 hover:border-indigo-500/50" : "bg-white/80 border-gray-200 hover:border-indigo-400/50"} backdrop-blur-sm rounded-2xl border transition-all duration-500 shadow-3d overflow-hidden`}
               >
-                <div className="relative p-6 pb-0">
+                <div className="relative p-6 pb-0 preserve-3d">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-500/10 to-transparent rounded-full blur-2xl"></div>
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                      <CategoryIcon className="w-7 h-7 text-white" />
+                    {/* 3D spinning cube */}
+                    <div className="perspective-800 w-14 h-14 flex-shrink-0">
+                      <div className="preserve-3d w-14 h-14 animate-spin3d group-hover:[animation-play-state:paused]">
+                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg"><CategoryIcon className="w-7 h-7 text-white" /></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-emerald-500 rounded-2xl flex items-center justify-center shadow-lg" style={{ transform: "rotateY(90deg) translateZ(28px)", backfaceVisibility: "hidden" }}><CategoryIcon className="w-7 h-7 text-white" /></div>
+                      </div>
                     </div>
                     <div>
                       <h3 className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"} capitalize`}>{category}</h3>
@@ -135,11 +140,11 @@ const Skills = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.03 }}
                 whileHover={{ y: -5, scale: 1.05 }}
-                className={`group relative ${isDarkMode ? "bg-slate-800/80 border-slate-700 hover:border-indigo-500/50" : "bg-white/90 border-gray-200 hover:border-indigo-400/50"} backdrop-blur-sm rounded-2xl border transition-all duration-300 shadow-md hover:shadow-xl overflow-hidden`}
+                className={`group relative ${isDarkMode ? "bg-slate-800/80 border-slate-700 hover:border-indigo-500/50" : "bg-white/90 border-gray-200 hover:border-indigo-400/50"} backdrop-blur-sm rounded-2xl border shadow-md hover:shadow-xl overflow-hidden`}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/0 to-indigo-500/0 group-hover:from-indigo-500/10 group-hover:to-indigo-500/5 transition-all duration-500"></div>
                 <div className="px-5 py-3 flex items-center gap-3 relative z-10">
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${isDarkMode ? "bg-slate-700" : "bg-gray-100"}`}>
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[15deg] ${isDarkMode ? "bg-slate-700" : "bg-gray-100"} shadow-inner`}>
                     <skill.icon className={`w-4 h-4 ${skill.color}`} />
                   </div>
                   <span className={`font-medium ${isDarkMode ? "text-gray-200" : "text-gray-700"} group-hover:text-indigo-500 transition-colors duration-300`}>{skill.name}</span>

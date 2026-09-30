@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaDownload, FaArrowRight, FaCheckCircle } from "react-icons/fa";
+import Tilt3D from "./Tilt3D";
 import { useTheme } from "../context/ThemeContext";
 import { profile } from "../data/data";
 
@@ -28,28 +29,36 @@ const About = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16">
-          {/* Image */}
+          {/* Image — 3D layered card */}
           <motion.div
-            className="relative group"
+            className="relative group perspective-1400"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             data-aos="zoom-in"
           >
             <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500 to-cyan-500 rounded-2xl blur-lg opacity-40 group-hover:opacity-70 transition duration-500"></div>
-            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-              <img src={profile.images.about} alt="About" className="w-96 h-auto object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent"></div>
-            </div>
-            <div className={`absolute -bottom-4 -right-4 ${isDarkMode ? "bg-slate-800" : "bg-white"} rounded-2xl px-6 py-4 shadow-xl border ${isDarkMode ? "border-slate-700" : "border-gray-200"}`}>
-              <div className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">2+ Years</div>
-              <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Experience</div>
-            </div>
+            <Tilt3D max={12} className="rounded-2xl">
+              <div className="preserve-3d">
+                <div className="relative overflow-hidden rounded-2xl shadow-3d">
+                  <img src={profile.images.about} alt="About" className="w-96 h-auto object-cover" style={{ transform: "translateZ(30px)" }} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/40 to-transparent"></div>
+                </div>
+                <div className={`absolute -bottom-4 -right-4 ${isDarkMode ? "bg-slate-800" : "bg-white"} rounded-2xl px-6 py-4 shadow-3d border ${isDarkMode ? "border-slate-700" : "border-gray-200"}`} style={{ transform: "translateZ(70px)" }}>
+                  <div className="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">2+ Years</div>
+                  <div className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Experience</div>
+                </div>
+                {/* Floating highlight chips */}
+                <div className="absolute -top-3 -left-3 px-3 py-1.5 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 text-white text-xs font-semibold shadow-3d" style={{ transform: "translateZ(60px)" }}>
+                  MERN Stack
+                </div>
+              </div>
+            </Tilt3D>
           </motion.div>
 
           {/* Content */}
           <div className="lg:w-1/2 space-y-6" data-aos="fade-left">
-            <h2 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+            <h2 className={`text-2xl md:text-3xl font-bold text-3d ${isDarkMode ? "text-white" : "text-gray-900"}`}>
               Full Stack Developer & <span className="bg-gradient-to-r from-indigo-500 to-cyan-500 bg-clip-text text-transparent">Problem Solver</span>
             </h2>
 
@@ -94,7 +103,7 @@ const About = () => {
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
               <a
                 href="#contact"
-                className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center gap-2"
+                className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white rounded-full font-semibold shadow-3d hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 inline-flex items-center justify-center gap-2"
               >
                 <FaArrowRight className="text-sm" />
                 Let's Talk

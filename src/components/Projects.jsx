@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt, FaArrowRight, FaCode, FaStar, FaFolder } from "react-icons/fa";
+import Tilt3D from "./Tilt3D";
 import { useTheme } from "../context/ThemeContext";
 import { projects, categories } from "../data/data";
 
@@ -11,14 +12,15 @@ const FeaturedProjectCard = ({ project, index, isDarkMode }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.2 }}
       whileHover={{ y: -8 }}
-      className="group relative"
+      className="group relative perspective-1400"
     >
       {/* Gradient border on hover */}
       <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 via-cyan-500 to-emerald-500 rounded-3xl opacity-0 group-hover:opacity-100 transition-all duration-500 blur-md"></div>
 
-      <div className={`relative ${isDarkMode ? "bg-slate-800" : "bg-white"} rounded-3xl overflow-hidden shadow-2xl`}>
+      <Tilt3D max={10} className="rounded-3xl">
+      <div className={`relative ${isDarkMode ? "bg-slate-800" : "bg-white"} rounded-3xl overflow-hidden shadow-3d preserve-3d`}>
         {/* Image */}
-        <div className="relative h-64 md:h-72 overflow-hidden">
+        <div className="relative h-64 md:h-72 overflow-hidden" style={{ transform: "translateZ(30px)" }}>
           <img
             src={project.image}
             alt={project.title}
@@ -35,7 +37,7 @@ const FeaturedProjectCard = ({ project, index, isDarkMode }) => {
           </div>
 
           {/* Hover actions */}
-          <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+          <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0" style={{ transform: "translateZ(60px)" }}>
             <a
               href={project.github}
               target="_blank"
@@ -103,6 +105,7 @@ const FeaturedProjectCard = ({ project, index, isDarkMode }) => {
           </a>
         </div>
       </div>
+      </Tilt3D>
     </motion.div>
   );
 };
@@ -114,12 +117,13 @@ const ProjectCard = ({ project, index, isDarkMode }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
       whileHover={{ y: -8 }}
-      className="group relative"
+      className="group relative perspective-1400"
     >
       <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500/50 via-cyan-500/50 to-emerald-500/50 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 blur-md"></div>
 
-      <div className={`relative ${isDarkMode ? "bg-slate-800/80" : "bg-white"} rounded-2xl overflow-hidden shadow-xl transition-all duration-500`}>
-        <div className="relative h-52 overflow-hidden">
+      <Tilt3D max={12} scale={1.03} className="rounded-2xl">
+      <div className={`relative ${isDarkMode ? "bg-slate-800/80" : "bg-white"} rounded-2xl overflow-hidden shadow-3d preserve-3d transition-all duration-500`}>
+        <div className="relative h-52 overflow-hidden" style={{ transform: "translateZ(25px)" }}>
           <img
             src={project.image}
             alt={project.title}
@@ -189,13 +193,14 @@ const ProjectCard = ({ project, index, isDarkMode }) => {
               <FaArrowRight className="text-xs" />
             </a>
           </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
+                  </div>
+                </div>
+              </Tilt3D>
+            </motion.div>
+          );
+        };
 
-const Projects = () => {
+        const Projects = () => {
   const { isDarkMode } = useTheme();
   const [activeFilter, setActiveFilter] = useState("all");
 
